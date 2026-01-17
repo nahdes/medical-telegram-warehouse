@@ -1,4 +1,14 @@
-/*
+
+  
+    
+
+  create  table "medical_warehouse"."public_marts"."dim_channels__dbt_tmp"
+  
+  
+    as
+  
+  (
+    /*
     Dimension: Channels
     Contains information about each Telegram channel
 */
@@ -26,13 +36,13 @@ WITH channel_metrics AS (
         COUNT(CASE WHEN has_image THEN 1 END)::FLOAT / 
             NULLIF(COUNT(*), 0) AS image_content_ratio
 
-    FROM {{ ref('stg_telegram_messages') }}
+    FROM "medical_warehouse"."public_staging"."stg_telegram_messages"
     GROUP BY channel_name, channel_type
 )
 
 SELECT
     -- Surrogate key
-    {{ dbt_utils.generate_surrogate_key(['channel_name']) }} AS channel_key,
+    md5(cast(coalesce(cast(channel_name as TEXT), '_dbt_utils_surrogate_key_null_') as TEXT)) AS channel_key,
     
     -- Natural key and attributes
     channel_name,
@@ -68,3 +78,5 @@ SELECT
     CURRENT_TIMESTAMP AS updated_at
 
 FROM channel_metrics
+  );
+  
