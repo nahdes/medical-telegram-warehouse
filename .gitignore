@@ -1,13 +1,12 @@
 .env
 # Environment variables
 .env
-
 # Telegram session files
 *.session
 *.session-journal
 
 # Data directories
-data/
+
 logs/
 
 # Python
