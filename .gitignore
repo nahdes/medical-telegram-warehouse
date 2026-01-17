@@ -7,7 +7,7 @@
 *.session-journal
 
 # Data directories
-data/
+
 logs/
 
 # Python
